@@ -14,7 +14,7 @@ public class Conexao {
 	private Connection connection = null;
 	private Statement statement = null;
 	private ResultSet resultSet = null;
-	
+	      String[] query = null;
 	
 	
 	public void Conect(){
@@ -49,6 +49,21 @@ public class Conexao {
         
         
         
+      
+    
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
     
     
     
@@ -71,6 +86,88 @@ public class Conexao {
     	 }
     	
     }
+    
+    
+    
+    
+    
+    
+    
+    
+    public int QdtRegra(){
+     
+     String nome="", id="";
+     String parametros[] = new String [5];
+      int  rowcount = 0;
+    try{
+      	
+     String query5 = "SELECT rg_id as ID, rg_nome as NOME FROM `regras`";
+     
+     this.resultSet = this.statement.executeQuery(query5);
+     this.statement = (Statement) this.connection.createStatement();
+     
+   
+    
+     rowcount = this.resultSet.last() ? this.resultSet.getRow() : 0;
+    
+      
+    }catch(SQLException e){
+      	System.out.println("Errorrr:" + e.getMessage());
+      }
+        
+   
+    
+     return rowcount;   
+      	
+      }
+    
+    
+    
+    
+    
+    
+    public String[] QdtRegra_Id(){
+     
+     String id="";
+     String parametros[] = new String [5];
+      
+    try{
+      	
+     String query5 = "SELECT rg_id as ID, rg_nome as NOME FROM `regras`";
+     
+     this.resultSet = this.statement.executeQuery(query5);
+     this.statement = (Statement) this.connection.createStatement();
+      
+   
+       
+      int i = 0; 
+     while(this.resultSet.next()){
+      	
+       id   = this.resultSet.getString("ID");
+      
+      this.query[i++] = id;
+    }
+    
+    
+      
+    }catch(SQLException e){
+      	System.out.println("Errorrr:" + e.getMessage());
+      }
+      
+       
+     
+     return this.query;   
+      	
+      }
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     
        

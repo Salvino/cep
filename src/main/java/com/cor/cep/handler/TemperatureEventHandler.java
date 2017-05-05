@@ -65,14 +65,22 @@ public class TemperatureEventHandler implements InitializingBean{
         
        Conexao C = new Conexao();
        C.Conect();
+     
+       for(int i=0; i<=C.QdtRegra()-1; i++){
+       
+       
        String dados[] = new String [5];
        dados = C.Questionario();
-       
        String parametro = C.Parametros();
-               
+        
        LOG.debug("create Timed Average Monitor");
        monitorEventStatement = epService.getEPAdministrator().createEPL(monitorEventSubscriber.getStatement(parametro, dados[2], dados[0]));
        monitorEventStatement.setSubscriber(monitorEventSubscriber);
+  
+    
+       }
+    
+    
     }
     
     
