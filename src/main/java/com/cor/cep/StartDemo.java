@@ -31,6 +31,7 @@ public class StartDemo {
             noOfTemperatureEvents = Long.valueOf(args[0]);
         }
 
+        
         // Load spring config
         ClassPathXmlApplicationContext appContext = new ClassPathXmlApplicationContext(new String[] { "application-context.xml" });
         BeanFactory factory = (BeanFactory) appContext;

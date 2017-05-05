@@ -86,7 +86,7 @@ public class TemperatureEventHandler implements InitializingBean{
        
        String parametro = C.Parametros();
      LOG.debug("create Timed Average Monitor");
-     question2EventStatement = epService.getEPAdministrator().createEPL(question2EventSubscriber.getQuestion2(parametro, dados[2], dados[0]));       question2EventStatement.setSubscriber(question2EventSubscriber);
+     question2EventStatement = epService.getEPAdministrator().createEPL(question2EventSubscriber.                getQuestion2(parametro, dados[2], dados[0]));       question2EventStatement.setSubscriber(                  question2EventSubscriber);
     }
     
     
