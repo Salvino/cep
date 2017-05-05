@@ -57,7 +57,6 @@ public class TemperatureEventHandler implements InitializingBean{
 
     }
 
-
     /**
      * EPL to monitor the average temperature every 10 seconds. Will call listener on every event.
      */
@@ -69,26 +68,25 @@ public class TemperatureEventHandler implements InitializingBean{
        String dados[] = new String [5];
        dados = C.Questionario();
        
-       String parametro = "A."+dados[1]+" "+dados[3]+" "+dados[4];
+       String parametro = C.Parametros();
                
        LOG.debug("create Timed Average Monitor");
-       monitorEventStatement = epService.getEPAdministrator().createEPL(monitorEventSubscriber.getStatement(parametro, dados[2], 1));
+       monitorEventStatement = epService.getEPAdministrator().createEPL(monitorEventSubscriber.getStatement(parametro, dados[2], dados[0]));
        monitorEventStatement.setSubscriber(monitorEventSubscriber);
     }
-
     
     
       private void Question2MonitorExpression() {
          
         
-     Conexao C = new Conexao();
+       Conexao C = new Conexao();
        C.Conect();
        String dados[] = new String [5];
        dados = C.Questionario();
        
-       String parametro = "A."+dados[1]+" "+dados[3]+" "+dados[4];
+       String parametro = C.Parametros();
      LOG.debug("create Timed Average Monitor");
-     question2EventStatement = epService.getEPAdministrator().createEPL(question2EventSubscriber.getQuestion2(parametro, dados[2], 1));       question2EventStatement.setSubscriber(question2EventSubscriber);
+     question2EventStatement = epService.getEPAdministrator().createEPL(question2EventSubscriber.getQuestion2(parametro, dados[2], dados[0]));       question2EventStatement.setSubscriber(question2EventSubscriber);
     }
     
     

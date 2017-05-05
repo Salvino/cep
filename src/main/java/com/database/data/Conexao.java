@@ -79,7 +79,7 @@ public class Conexao {
     
      public String[] Questionario(){
      
-     String nome="", contexto="", tempo="", operador="", valor="";
+     String nome="", contexto="", tempo="", operador="", valor="", query="";
      String parametros[] = new String [5];
     try{
       	
@@ -95,6 +95,7 @@ public class Conexao {
        tempo     = this.resultSet.getString("Tempo");
        operador  = this.resultSet.getString("Operador");
        valor     = this.resultSet.getString("Valor");
+      //  query += ""+contexto+" "+operador+" "+valor+" "+conector+" ";
     }
     
     
@@ -111,21 +112,82 @@ public class Conexao {
      return parametros;   
       	
       }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     public String Parametros(){
+     
+     String nome="", contexto="", tempo="", operador="", valor="", query="", conector="";
+     String teste="";
+    try{
+      	
+     String query5 = "SELECT  ct.ct_abreviacao as Contexto, cd.cd_operador as Operador, cd.cd_valor as Valor, cd.cd_conector as Conector FROM `condicoes` as cd INNER JOIN regras AS rg ON rg.rg_id=cd.cd_regra INNER JOIN contexto as ct on cd_contexto=ct.ct_id group BY cd.cd_id";
+     
+     
+     
+     
+     
+     this.resultSet = this.statement.executeQuery(query5);
+     this.statement = (Statement) this.connection.createStatement();
+     
+     while(this.resultSet.next()){
+      	
         
-        
-        
-        
-        
+       contexto  = this.resultSet.getString("Contexto");
+       valor     = this.resultSet.getString("Valor");
+       operador  = this.resultSet.getString("Operador");
+       conector     = this.resultSet.getString("Conector");
+       query += "A."+contexto+" "+operador+" "+valor+" "+conector+" ";
+    }
+    
+    
+      
+    }catch(SQLException e){
+      	System.out.println("Errorrr aKI:" + e.getMessage());
+      }
+         
+   	System.out.println(query);
+    
+    
+     return query;   
+      	
+      }
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+    
+    
+   
            public void inserirFc(int fc){
        	
 	        try{

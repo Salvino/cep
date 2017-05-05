@@ -15,15 +15,15 @@ public class Question2EventSubscriber implements StatementSubscriber {
 
     /** Logger */
     private static Logger LOG = LoggerFactory.getLogger(Question2EventSubscriber.class);
-    int id;
+    String nome;
     /**
      * {@inheritDoc}
      */
     
     
 
-    public String getQuestion2(String parametro, String t, int id) {
-    this.id = id;
+    public String getQuestion2(String parametro, String t, String nome) {
+    this.nome = nome;
           
         return "select * from TemperatureEvent " +
                "match_recognize ( " +
@@ -48,12 +48,12 @@ public class Question2EventSubscriber implements StatementSubscriber {
         
         // average temp over 10 secs
         Double avg = (Double) eventMap.get("T");
-        C.InserirResultado(id+"b", (avg*60));
+        C.InserirResultado(nome+"b", (avg*60));
         
         StringBuilder sb = new StringBuilder();
         sb.append("---------------------------------");
        // sb.append("\n-  Pergunta 1a = " + avg);
-        sb.append("\n-  Pergunta 1b Ativada "+ (avg*60));
+        sb.append("\n-  "+nome+"b Ativada "+ (avg*60));
         sb.append("\n---------------------------------");
 
         LOG.debug(sb.toString());
