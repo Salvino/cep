@@ -138,8 +138,7 @@ public class Conexao {
      this.resultSet = this.statement.executeQuery(query5);
      this.statement = (Statement) this.connection.createStatement();
       
-   
-       
+         
       int i = 0; 
      while(this.resultSet.next()){
       	
