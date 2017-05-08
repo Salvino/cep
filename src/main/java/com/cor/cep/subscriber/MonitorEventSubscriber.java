@@ -26,7 +26,7 @@ public class MonitorEventSubscriber implements StatementSubscriber {
 
     public String getStatement(String parametro, String t) {
     this.nome = nome;
-    LOG.debug("Criação da regra Dentro "+nome+"a");      
+         
         return "select *  from TemperatureEvent " +
                "match_recognize ( " +
                "measures A as A " +

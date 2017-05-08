@@ -35,8 +35,8 @@ public class TemperatureEventHandler implements InitializingBean{
     /** Esper service */
     private EPServiceProvider epService;
     private EPStatement monitorEventStatement;
-/**    private EPStatement question2EventStatement;
-
+    private EPStatement question2EventStatement;
+/**
     @Autowired
     @Qualifier("monitorEventSubscriber")
     private MonitorEventSubscriber monitorEventSubscriber;
@@ -56,7 +56,7 @@ public class TemperatureEventHandler implements InitializingBean{
         epService = EPServiceProviderManager.getDefaultProvider(config);
 
         createTemperatureMonitorExpression();
-      //  Question2MonitorExpression();
+        Question2MonitorExpression();
 
     }
 
@@ -89,7 +89,7 @@ public class TemperatureEventHandler implements InitializingBean{
     
     }
     
-  /**  
+   
       private void Question2MonitorExpression() {
          
         
@@ -98,18 +98,23 @@ public class TemperatureEventHandler implements InitializingBean{
        String[]   r_valores = new String[20];
        r_valores = C.QdtRegra_Id();
        String dados[] = new String [20];
+       
+        List <Question2EventSubscriber> qes = new ArrayList<Question2EventSubscriber>() ;
+       
       for(int i=0; i<=C.QdtRegra()-1; i++){
           
        
        dados = C.Questionario(r_valores[i]);
        String parametro = C.Parametros(r_valores[i]);
      LOG.debug("Criação da regra  "+dados[0]+"b");
-     question2EventStatement = epService.getEPAdministrator().createEPL(question2EventSubscriber.getQuestion2(parametro, dados[2], dados[0]));       
-     question2EventStatement.setSubscriber(question2EventSubscriber);
+     
+     qes.add(new Question2EventSubscriber(dados[0]));
+     question2EventStatement = epService.getEPAdministrator().createEPL(qes.get(i).getQuestion2(parametro, dados[2]));       
+     question2EventStatement.setSubscriber(qes.get(i));
     }
       }
     
-    
+  /**   
      * Handle the incoming TemperatureEvent.
      */
     public void handle(TemperatureEvent event) {

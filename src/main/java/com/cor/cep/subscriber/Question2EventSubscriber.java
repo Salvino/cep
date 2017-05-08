@@ -13,6 +13,11 @@ import org.springframework.stereotype.Component;
 @Component
 public class Question2EventSubscriber implements StatementSubscriber {
 
+    
+     public Question2EventSubscriber( ){ }
+    public Question2EventSubscriber(String nome){this.nome=nome;}
+    
+    
     /** Logger */
     private static Logger LOG = LoggerFactory.getLogger(Question2EventSubscriber.class);
     String nome;
@@ -22,7 +27,7 @@ public class Question2EventSubscriber implements StatementSubscriber {
     
     
 
-    public String getQuestion2(String parametro, String t, String nome) {
+    public String getQuestion2(String parametro, String t) {
     this.nome = nome;
           
         return "select * from TemperatureEvent " +
