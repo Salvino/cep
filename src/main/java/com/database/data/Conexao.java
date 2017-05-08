@@ -14,7 +14,7 @@ public class Conexao {
 	private Connection connection = null;
 	private Statement statement = null;
 	private ResultSet resultSet = null;
-	      String[] query = null;
+	 
 	
 	
 	public void Conect(){
@@ -46,24 +46,7 @@ public class Conexao {
 	
 	
 	
-        
-        
-        
-      
-    
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
+       
     
     
     
@@ -121,8 +104,7 @@ public class Conexao {
       	
       }
     
-    
-    
+      
     
     
     
@@ -130,21 +112,25 @@ public class Conexao {
      
      String id="";
      String parametros[] = new String [5];
-      
+     String[] query = new String [5];
+     
+     
+     
+     
     try{
       	
      String query5 = "SELECT rg_id as ID, rg_nome as NOME FROM `regras`";
      
      this.resultSet = this.statement.executeQuery(query5);
      this.statement = (Statement) this.connection.createStatement();
-      
+       
          
       int i = 0; 
      while(this.resultSet.next()){
       	
        id   = this.resultSet.getString("ID");
       
-      this.query[i++] = id;
+       query[i++] = id;
     }
     
     
@@ -153,9 +139,9 @@ public class Conexao {
       	System.out.println("Errorrr:" + e.getMessage());
       }
       
-       
+      
      
-     return this.query;   
+     return query;   
       	
       }
     
@@ -173,13 +159,13 @@ public class Conexao {
     
     
     
-     public String[] Questionario(){
+     public String[] Questionario(String id){
      
      String nome="", contexto="", tempo="", operador="", valor="", query="";
      String parametros[] = new String [5];
     try{
       	
-     String query5 = "SELECT rg.rg_nome as Nome, rg.rg_duracao as Tempo, ct.ct_abreviacao as Contexto, cd.cd_operador as Operador, cd.cd_valor as Valor FROM `regras` AS rg INNER JOIN condicoes as cd ON cd.cd_regra = rg.rg_id INNER JOIN contexto AS ct ON ct.ct_id = cd.cd_contexto";
+     String query5 = "SELECT rg.rg_nome as Nome, rg.rg_duracao as Tempo, ct.ct_abreviacao as Contexto, cd.cd_operador as Operador, cd.cd_valor as Valor FROM `regras` AS rg INNER JOIN condicoes as cd ON cd.cd_regra = rg.rg_id INNER JOIN contexto AS ct ON ct.ct_id = cd.cd_contexto WHERE rg.rg_id="+id+"; ";
      
      this.resultSet = this.statement.executeQuery(query5);
      this.statement = (Statement) this.connection.createStatement();
@@ -221,13 +207,13 @@ public class Conexao {
      
      
      
-     public String Parametros(){
+     public String Parametros(String id){
      
      String nome="", contexto="", tempo="", operador="", valor="", query="", conector="";
      String teste="";
     try{
       	
-     String query5 = "SELECT  ct.ct_abreviacao as Contexto, cd.cd_operador as Operador, cd.cd_valor as Valor, cd.cd_conector as Conector FROM `condicoes` as cd INNER JOIN regras AS rg ON rg.rg_id=cd.cd_regra INNER JOIN contexto as ct on cd_contexto=ct.ct_id group BY cd.cd_id";
+     String query5 = "SELECT  ct.ct_abreviacao as Contexto, cd.cd_operador as Operador, cd.cd_valor as Valor, cd.cd_conector as Conector FROM `condicoes` as cd INNER JOIN regras AS rg ON rg.rg_id=cd.cd_regra INNER JOIN contexto as ct on cd_contexto=ct.ct_id WHERE rg.rg_id="+id+" group BY cd.cd_id";
      
      
      

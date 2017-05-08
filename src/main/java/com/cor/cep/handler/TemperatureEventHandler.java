@@ -17,6 +17,9 @@ import com.espertech.esper.client.Configuration;
 import com.espertech.esper.client.EPServiceProvider;
 import com.espertech.esper.client.EPServiceProviderManager;
 import com.espertech.esper.client.EPStatement;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * This class handles incoming Temperature Events. It processes them through the EPService, to which
@@ -32,17 +35,17 @@ public class TemperatureEventHandler implements InitializingBean{
     /** Esper service */
     private EPServiceProvider epService;
     private EPStatement monitorEventStatement;
-    private EPStatement question2EventStatement;
+/**    private EPStatement question2EventStatement;
 
     @Autowired
     @Qualifier("monitorEventSubscriber")
     private MonitorEventSubscriber monitorEventSubscriber;
-   
+  
    @Autowired
     @Qualifier("question2EventSubscriber")
     private Question2EventSubscriber question2EventSubscriber;
-
-    /**
+ */
+   /** 
      * Configure Esper Statement(s).
      */
     public void initService() {
@@ -53,7 +56,7 @@ public class TemperatureEventHandler implements InitializingBean{
         epService = EPServiceProviderManager.getDefaultProvider(config);
 
         createTemperatureMonitorExpression();
-        Question2MonitorExpression();
+      //  Question2MonitorExpression();
 
     }
 
@@ -65,40 +68,48 @@ public class TemperatureEventHandler implements InitializingBean{
         
        Conexao C = new Conexao();
        C.Conect();
-     
-       for(int i=0; i<=C.QdtRegra()-1; i++){
+       String[]   r_valores = new String[20];
+       r_valores = C.QdtRegra_Id();
+       String dados[] = new String [20];
+       List <MonitorEventSubscriber> mes = new ArrayList<MonitorEventSubscriber>() ;
        
+      for(int i=0; i<=C.QdtRegra()-1; i++){
+          
        
-       String dados[] = new String [5];
-       dados = C.Questionario();
-       String parametro = C.Parametros();
+       dados = C.Questionario(r_valores[i]);
+       String parametro = C.Parametros(r_valores[i]);
         
-       LOG.debug("create Timed Average Monitor");
-       monitorEventStatement = epService.getEPAdministrator().createEPL(monitorEventSubscriber.getStatement(parametro, dados[2], dados[0]));
-       monitorEventStatement.setSubscriber(monitorEventSubscriber);
-  
-    
+      LOG.debug("Criação da regra  "+dados[0]+"a");
+   mes.add(new MonitorEventSubscriber(dados[0]));
+   monitorEventStatement = epService.getEPAdministrator().createEPL(mes.get(i).getStatement(parametro, dados[2]));   
+   monitorEventStatement.setSubscriber(mes.get(i));
+     
        }
     
     
     }
     
-    
+  /**  
       private void Question2MonitorExpression() {
          
         
        Conexao C = new Conexao();
        C.Conect();
-       String dados[] = new String [5];
-       dados = C.Questionario();
+       String[]   r_valores = new String[20];
+       r_valores = C.QdtRegra_Id();
+       String dados[] = new String [20];
+      for(int i=0; i<=C.QdtRegra()-1; i++){
+          
        
-       String parametro = C.Parametros();
-     LOG.debug("create Timed Average Monitor");
-     question2EventStatement = epService.getEPAdministrator().createEPL(question2EventSubscriber.                getQuestion2(parametro, dados[2], dados[0]));       question2EventStatement.setSubscriber(                  question2EventSubscriber);
+       dados = C.Questionario(r_valores[i]);
+       String parametro = C.Parametros(r_valores[i]);
+     LOG.debug("Criação da regra  "+dados[0]+"b");
+     question2EventStatement = epService.getEPAdministrator().createEPL(question2EventSubscriber.getQuestion2(parametro, dados[2], dados[0]));       
+     question2EventStatement.setSubscriber(question2EventSubscriber);
     }
+      }
     
     
-    /**
      * Handle the incoming TemperatureEvent.
      */
     public void handle(TemperatureEvent event) {

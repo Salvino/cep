@@ -59,10 +59,7 @@ public class Question2EventSubscriber implements StatementSubscriber {
         LOG.debug(sb.toString());
     }
 
-    @Override
-    public String getQuestion2(String fc, String t) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+  
 
     @Override
     public String getStatement(String parametro, String t) {

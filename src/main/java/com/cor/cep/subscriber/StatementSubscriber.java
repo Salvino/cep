@@ -12,7 +12,7 @@ public interface StatementSubscriber {
      */
     public String getStatement(String parametro, String t);
     
-    public String getQuestion2(String fc, String t);
+    
 
  
 

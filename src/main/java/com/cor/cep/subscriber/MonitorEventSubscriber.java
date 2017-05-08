@@ -13,7 +13,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class MonitorEventSubscriber implements StatementSubscriber {
 
-    /** Logger */
+    public MonitorEventSubscriber( ){ }
+    public MonitorEventSubscriber(String nome){this.nome=nome;}
+ /**    Logger */
     private static Logger LOG = LoggerFactory.getLogger(MonitorEventSubscriber.class);
     String nome;
     /**
@@ -22,10 +24,10 @@ public class MonitorEventSubscriber implements StatementSubscriber {
     
     
 
-    public String getStatement(String parametro, String t, String id) {
-    this.nome = id;
-          
-        return "select * from TemperatureEvent " +
+    public String getStatement(String parametro, String t) {
+    this.nome = nome;
+    LOG.debug("Criação da regra Dentro "+nome+"a");      
+        return "select *  from TemperatureEvent " +
                "match_recognize ( " +
                "measures A as A " +
                "pattern (A{"+t+"})  " +
@@ -36,7 +38,7 @@ public class MonitorEventSubscriber implements StatementSubscriber {
           
        //tempo total de atividades por dia (ttad)
        //total de dias por semana de atividades por determinado periodo continuo
-    
+     
     }
 
     /**
@@ -46,6 +48,7 @@ public class MonitorEventSubscriber implements StatementSubscriber {
 
           Conexao C = new Conexao();
           C.Conect();
+            
         // average temp over 10 secs
         Double avg = (Double) eventMap.get("fc");
         C.InserirResultado(nome+"a", avg);
@@ -59,15 +62,9 @@ public class MonitorEventSubscriber implements StatementSubscriber {
         LOG.debug(sb.toString());
     }
 
-    @Override
-    public String getQuestion2(String fc, String t) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 
-    @Override
-    public String getStatement(String parametro, String t) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+
+   
 
     
 }
